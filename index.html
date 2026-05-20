@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unggah File Sederhana</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Keamanan Siber</h2>
+
+    <form action="upload.php" method="post" enctype="multipart/form-data" class="upload-form">
+        <label for="fileToUpload" class="custom-file-upload">
+            Pilih atau Drop Foto di Sini
+        </label>
+        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" required>
+        
+        <div id="file-name">Belum ada file yang dipilih</div>
+
+        <div id="preview-container" style="display: none; margin: 15px 0; text-align: center;">
+            <img id="image-preview" src="#" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid rgba(0, 255, 242, 0.5); box-shadow: 0 0 10px rgba(0, 255, 242, 0.2);">
+        </div>
+
+        <button type="submit" name="submit" class="btn-submit">Unggah File</button>
+    </form>
+
+    <div class="action-links">
+        <a href="view.php" class="btn-secondary">👁️ Lihat Berkas Terunggah</a>
+    </div>
+</div>
+
+<script>
+    // JavaScript untuk Preview Foto & Menampilkan Nama File
+    const fileInput = document.getElementById('fileToUpload');
+    const fileNameDiv = document.getElementById('file-name');
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreview = document.getElementById('image-preview');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        
+        if (file) {
+            fileNameDiv.textContent = file.name;
+
+            // Memastikan berkas yang dipilih adalah gambar
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                
+                reader.addEventListener('load', function() {
+                    imagePreview.setAttribute('src', this.result);
+                    previewContainer.style.display = 'block';
+                });
+                
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        } else {
+            fileNameDiv.textContent = "Belum ada file yang dipilih";
+            previewContainer.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>
